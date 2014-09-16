@@ -14,8 +14,8 @@ missing_values(vector_test)
 
 ####Question 2####
 #data frame as input and returns named vector with number of missing values in each column of data frame
-col_missing_values <- function(df){
-  return(apply(is.na(df), 2, sum))
+col_missing_values <- function(data_frame){
+  return(apply(is.na(data_frame), 2, sum))
 }
 
 vector_test <- c(101, 111111111, 22, NA, 9, 8, NA, 5, 28)
