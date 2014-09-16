@@ -8,6 +8,7 @@ require(plyr)
 
 ####Question 1####
 #create entropy function that takes input and returns numeric value
+#use formula from sheet and video
 entropy <- function(input){
   observations <- length(input)
   table_test <- table(input)
@@ -39,7 +40,7 @@ information_gain <- function(target, attribute){
 ####Question 3####
 #return list contain two iterms
 #one item is the identity by column name of the attribute that maximizes the information gain
-#vector of information gains for each candidate attributes
+#second item is vector of information gains for each candidate attributes
 decide<-function(df,target){
   target_entropy <- entropy(df[,target])
   attribute_entropy <- apply(df[,-target], 2, function(x) information_gain(df[, target], x))
