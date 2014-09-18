@@ -142,6 +142,7 @@ logical_and_true(vector_test5)
 
 ####Question 6####
 #input of data fram and returns summary of its columns using the functions in question 3-5
+#use plyr
 
 summary_func_all<- function(input){
   summary_all<- apply(input, 2, function(x) switch(class(x), 'number' = Stats(input), 'character' = Distinct(input), 'factor' = Dinstinct(input), 'logical' = logical_and_true(input))) 
