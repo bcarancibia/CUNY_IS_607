@@ -23,39 +23,30 @@ q1
 # Setting zeroes to NAs for easier calculating of the mean
 m[,c("Action", "Animation", "Comedy", "Drama", "Documentary", "Romance", "Short")][m[,c("Action", "Animation", "Comedy", "Drama", "Documentary", "Romance", "Short")] == 0] <- NA
 
-Get.Ratings <- function(df){
-  # Finds the means of the different Genres, removing the NAs (which were previously zeroes)
-  Ratings <- c(mean(df$Action * df$rating, na.rm=T), 
-               mean(df$Animation * df$rating, na.rm=T), 
-               mean(df$Comedy * df$rating, na.rm=T), 
-               mean(df$Drama * df$rating, na.rm=T), 
-               mean(df$Documentary * df$rating, na.rm=T), 
-               mean(df$Romance * df$rating, na.rm=T), 
-               mean(df$Short * df$rating, na.rm=T))
-  return (t(Ratings))
-}
+avg.ratings <- rbind(ddply(m[which(m$Action == 1),], c("year"), summarise, genre = "Action", rating = mean(rating)),
+                     ddply(m[which(m$Animation == 1),], c("year"), summarise, genre = "Animation", rating = mean(rating)),
+                     ddply(m[which(m$Comedy == 1),], c("year"), summarise, genre = "Comedy", rating = mean(rating)),
+                     ddply(m[which(m$Drama == 1),], c("year"), summarise, genre = "Drama", rating = mean(rating)),
+                     ddply(m[which(m$Documentary == 1),], c("year"), summarise, genre = "Documentary", rating = mean(rating)),
+                     ddply(m[which(m$Romance == 1),], c("year"), summarise, genre = "Romance", rating = mean(rating)),
+                     ddply(m[which(m$Short == 1),], c("year"), summarise, genre = "Short", rating = mean(rating)))
 
-ratings.over.time <- data.frame(numeric(0), numeric(0), numeric(0), numeric(0), numeric(0), numeric(0), numeric(0), numeric(0))
-overall.avg <- Get.Ratings(m)
-for (i in 1:(length(levels(m$decade)))){
-  # This could be vectorized, but this works quickly
-  ratings.over.time <- rbind(ratings.over.time, c(as.numeric(levels(m$decade)[i]), Get.Ratings(subset(m, decade==levels(m$decade)[i]))))
-}
-names(ratings.over.time) <- c("Decade", "Action", "Animation", "Comedy", "Drama", "Documentary", "Romance", "Short")
-
-#plot one graph
-ggplot(ratings.over.time, aes(Decade)) + 
-  geom_line(aes(y=Action, col="Action"), size=1.5) + 
-  geom_line(aes(y=Animation, col="Animation"), size=1.5) + 
-  geom_line(aes(y=Comedy, col="Comedy"), size=1.5) + 
-  geom_line(aes(y=Drama, col="Drama"), size=1.5) + 
-  geom_line(aes(y=Documentary, col="Documentary"), size=1.5) + 
-  geom_line(aes(y=Romance, col="Romance"), size=1.5) +  
-  geom_line(aes(y=Short, col="Short"), size=1.5) +
-  ggtitle("Ratings over Time") +
-  ylab("Average rating") + 
-  theme(legend.title=element_blank())
-
+ggplot(avg.ratings, aes(x = year, y = rating, color = genre)) +
+  geom_line(size = 0.75) +
+  facet_wrap(~genre) +
+  stat_smooth(method = lm, se = FALSE, color = "red", size = 0.75) +
+  xlab("Year of Release") +
+  ylab("Averge IMDB Rating") +
+  ggtitle("Avgerage IMDB Ratings by Movie Genre over Time") +
+  labs(color = "Genre") +
+  theme(axis.title.x = element_text(size = 18),
+        axis.text.x = element_text(size = 14),
+        axis.title.y = element_text(size = 18),
+        axis.text.y = element_text(size = 14),
+        plot.title = element_text(size = 20),
+        legend.title = element_text(size = 14),
+        legend.text = element_text(size = 12),
+        strip.text = element_text(size = 12))
 
 ####Question 3####
 #length of movie vs rating
