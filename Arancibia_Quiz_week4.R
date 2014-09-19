@@ -53,6 +53,7 @@ length.rating
 cor(m$length, m$rating)
 
 m_no_outliers<- m[m$length < 500,]
+#cut out anything larger than 500 minutes
 b<-ggplot(data=m_no_outliers, aes(x=length, y=jitter(rating))) + ggtitle("Length of Movie vs Rating")+
   xlab("Length")+
   ylab("Rating")
