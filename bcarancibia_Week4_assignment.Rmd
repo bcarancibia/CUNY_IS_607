@@ -1,0 +1,104 @@
+---
+title: "Week 4 Assignment"
+author: "Ben Arancibia"
+date: "September 22, 2014"
+output: html_document
+---
+#Which year were the best popular movies made \n
+
+The term popular has a loaded meaning when you looking at a table filled with different values and try to determine which is the most popular. For the purposes of this exercise popularity can be defined as the most votes. The second part of the investigation is what are the best popular movies. This is a little bit harder to define, what exactly the besy way to define "best". 
+
+**Let's get the requirements and data into R right to start off**
+```{r, echo=FALSE}
+require(ggplot2)
+require(dplyr)
+```
+```{r}
+m <- read.table("/users/bcarancibia/CUNY_IS_607/movies.tab", sep="\t", header=TRUE, quote="", comment="")
+```
+
+So let's create a definition for popular movies. For the purpose of this exercise, popular movies will be defined as those movies that received the most votes. 
+
+**Popular Movies (defined by movies with the most votes over the years)** \n
+
+This will take the most popular movies (movies with most votes), then use plyr to take it and look which are the most popular movies over the years and combine it with what is best. \n
+
+**So what is "best"?**\n
+
+Best is defined differently by different people looking at the data depending on the user group. For example, best could be defined as movies with the most rewatchability. Also, best could be defined as what is the best movie in relation to the budget of the movie for movie studios. For example to a money conscious studio, a movie that is rated a 10 and wins and Oscar and only costs 5 million dollars as compared to a movie that is rated a 10 that cost 100 million dollars. For this exercise we are going to look at best as a high rating. \n
+
+```{r}
+subset_movies <- subset(movies, votes!=0)
+
+subset_movies_year <- select(subset_movies, c(year))
+
+subset_movies_year <- data.frame(subset_movies_year, count=c(rep(1, time=length(subset_movies$year))))
+
+aggregate_count_year<-aggregate(count~year, subset_movies_year, sum)
+
+final_output <- arrange(aggregate_count_year, desc(count))
+
+head(final_output)
+
+```
+
+We created a quick subset so lets take a look at the plot.
+
+```{r}
+ggplot(final_output, aes(x = year, y = count)) + geom_point()
+```
+
+From this plot we can see the count of movies the number of votes. It is not really what we are looking for, so let's take a look at it from another angle. We can see when the year with most popular counts, but we can't see the best. Let's try another method.
+
+**Phase 2 to combine year, mean rating**
+Create data frame with elements we need.
+```{r}
+elements <- c("title", "rating", "year")
+m <- subset(m, select=elements)
+
+#reorder by year
+movies_reorder <- m[order(m$year, m$rating),]
+head(movies_reorder)
+```
+
+Calculate the mean of each year (group by year)
+```{r}
+m_year_average <- aggregate(x=m$rating, by=list(m$year), FUN=mean)
+colnames(m_year_average) <- c("year", ("Mean_Rating"))
+print(head(m_year_average))
+```
+
+**Plot of the Final Data**
+```{r}
+p <- ggplot(m_year_average, aes(year, Mean_Rating))+geom_point()
+
+p1 <- p + xlab("Year") + ylab("Mean Rating Per Year") + ggtitle("Movie Popularity Rating By Release Year")
+
+p2 <- p1+geom_smooth()
+
+print(p1)
+
+print(p2)
+```
+
+**So what year was the best popular movie**\n
+
+Taking a look at the following two plots:
+```{r}
+ggplot(final_output, aes(x = year, y = count)) + geom_point()
+
+print(p2)
+``` 
+
+\n
+You can see the popularity votes in the first plot shows the most votes were in the 2000s. In the second plot you see that the highest rated movies are in the 1920s. Based on the two plots, I think that the best popular movies on record were made in the 1920s and the late 2000s.
+
+
+
+
+
+
+
+
+
+
