@@ -15,7 +15,19 @@ Reading Quiz: "Tidy Data"
 	(5) a single observational unit is stored in multiple tables
 
 4. Definition for the four fundamental verbs of data manipulation:
-	(a) Filter
-	(b) Transform
-	(c) Aggregate
-	(d) Sort
+	(a) Filter - subsetting or removing observations based on some condition
+	(b) Transform - adding or modifying variables. These modifications can involve either a single variable or multiple variables.
+	(c) Aggregate - collapsing multiple values into a single value
+	(d) Sort - changing the order of observations
+
+5. The function in base R for filtering is subset().
+
+Reading Quiz: "Introduction to Dplyr"
+1. Dplyr has advantages and disadvantages compared to plyr. Compared to plyr, dplyr is much faster, provides a better thought out set of joins, and provides tools for working with data frames. The disadvantage of dplyr is that it doesn't pretend that you have a data frame and it doesn't provide methods for R summary functions.
+
+2. Compared to the base R apply family of cuntions dplyr is much more consistent (functions have the same interface) and dplyr is centered around data frames. Base functions tend to be based around vectors.
+
+Reading Quiz: "tidyr"
+1. Two verbs (functions) that apply in the tidyr package that correspond to the spreadsheet functions pivot and unpivot are:
+	(a) gather() is the function that corresponds to pivot
+	(b) spread() is the function that coresponds to unpivot
