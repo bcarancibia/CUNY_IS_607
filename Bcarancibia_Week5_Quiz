@@ -1,0 +1,21 @@
+Benjamin Arancibia
+9/26/2014
+Week 5 Quiz
+
+Reading Quiz: "Tidy Data"
+1. Data Tidying is what Hadley Wickham calls structuring datasets to facilitate analysis.
+
+2. The three properties of tidy data are: (1) each variable forms a column, (2) each observation forms a row, (3) each type of observational unit forms a table. For this question, characteristic 1 and 2 are answers.
+
+3. The five most common problems with messy datasets, along with their remedies are as follows:
+	(1) column headers are values, not variable names
+	(2) multiple variables are stored in one column
+	(3) variables are stored in both rows and columns
+	(4) multiple types of observational unites are stored in the same table
+	(5) a single observational unit is stored in multiple tables
+
+4. Definition for the four fundamental verbs of data manipulation:
+	(a) Filter
+	(b) Transform
+	(c) Aggregate
+	(d) Sort
