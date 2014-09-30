@@ -1,0 +1,86 @@
+---
+title: "New York City Taxi Data: FOILED for the Public"
+author: "Ben Arancibia"
+date: "September 29, 2014"
+output: pdf_document
+---
+__*Introduction*__
+This dataset was obtained by a Civic Technology expert located in New York City, who works for the open data firm Socrata. The work he has done to visuzale the Taxi Data can be found here: https://github.com/chriswhong/taxitracker. This dataset tracks all taxis during 2013 including number of passengers, dollar amounts of individual fares, tips, and times the taxi was active. There is a visuzalition that follows one taxi for 24 hours then switches to another to look at the different patterns and choices of each taxi. The visualizatio can be found here: http://nyctaxi.herokuapp.com/
+
+Source: New York Taxi and Limousine Commission obtained by Freedom of Information Law (FOIL).
+
+The dataset is huge when you look at the total processed data set. The total dataset is about 2.5GB and can be downloaded fully from here: http://www.andresmh.com/nyctaxitrips/. For this exercise we will only look at 100 taxi records. This data can be found on the github account referenced earlier. I have downloaded it to my working directory. 
+
+__*Data Profile*__
+```{r}
+require(ggplot2)
+require(DMwR)
+require(dplyr)
+require(psych)
+data_csv <- read.table("/Users/bcarancibia/CUNY_IS_607/100RandomTrips.csv", header=TRUE, sep=",")
+```
+The attribute information of the table is:
+```{r}
+names(data_csv)
+```
+medallion = The ID of the Taxi
+
+pickuptime = Time passenger was picked up
+
+dropofftime = Time passenger was dropped off
+
+passengers=number of passengers
+
+pickupx = x coordinate of location (for mapping)
+
+pickupy = y coordinate of location (for mapping)
+
+dropoffx = x coordinate of drop off location
+
+dropoffy = y location of drop off location
+
+fare = amount to drive
+
+paymenttype = how the fare was paid
+
+surcharge = tax
+
+mtatax = special transit tax
+
+tip = tip for driver
+
+tolls = toll roads if used
+
+total = total amount aggreagted
+
+Quick summary of the data:
+```{r}
+summary(data_csv)
+```
+
+Looking at the summary you cannot really discern any information, one of the main reasons this is because there are four out of the fifteen feilds that are geographic related.
+
+Lets turn it into a data frame to do very very surface level data analysis.
+```{r}
+taxi <- data.frame(data_csv)
+```
+
+I was curious about the relation between number of passengers and mtatax. Which group of passengers paid the most mtatax. Theoretically, the tax should be higher when the number of passengers increased. This was not the case at all, look at the amount of tax collected in relation to the number of passengers in taxis.
+```{r}
+p <- ggplot(data=taxi, aes(x=passengers, y=mtatax))
+p+geom_histogram(stat="identity")
+```
+
+As you can see from the visualization the highest amount of MTA Tax is paid by 1 person passengers followed by two person passengers. I don't think that the actual tax percentage is higher, just that there are more one and two person passenger taxi rides compared to the other amount of taxi cab rides.
+
+__*Correlations*__
+Using the psych library, I took a look at all the variables to see if there are any correlations. It is a little difficult to see all the correlations.
+```{r}
+cor <- taxi[sample(nrow(taxi), 1000),]
+pairs.panels(cor)
+```
+
+When looking at the different correlations, there are some that you can automatically ignore. For example all the x and y coordinates will be coorelated because all the taxi trips were done in New York City. It would be useful to look in those cells though to see if there are any outliers. One thing that does look like a correlation is the fare with the total. The higher the fares the higher the total amount paid to the taxi. This makes complete sense. Other than that there do not seem to be any correlations.
+
+__**Conclusion**__
+Based off the different findings and diving deeper into the dataset. There do not appear to be any correlations within the data besides the more fares, tolls, and other amounts increase, the higher the total fare. One thing that I am curious about is why the longer amount of time between pick up and drop off is there an increase in total amount. Also, with the same logic the father from the pickup the higher the fair should be theoretically. There is a lot of analysis that can be done with this dataset, but the real strength of the data is the ability for it to be analyzed with the geographic lense to the data. Plotting this data on map, like the original user did, would make this a more powerful data set.
