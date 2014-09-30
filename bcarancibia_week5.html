@@ -68,26 +68,60 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <p><strong><em>Question 2</em></strong></p>
 <pre class="r"><code>require(tidyr)</code></pre>
 <pre><code>## Loading required package: tidyr</code></pre>
-<pre><code>## Warning: there is no package called 'tidyr'</code></pre>
 <pre class="r"><code>require(plyr)</code></pre>
 <pre><code>## Loading required package: plyr</code></pre>
 <pre class="r"><code>require(ggplot2)</code></pre>
 <pre><code>## Loading required package: ggplot2</code></pre>
 <p>Create a dataframe to save this data in its current messy state.</p>
-<pre class="r"><code>response &lt;- c('Yes', 'No')
-young_edinburgh &lt;- c(80100, 35900)
-older_edinburgh &lt;- c(143000, 214800)
-young_glasgow &lt;- c(99400, 150400)
-older_glasgow &lt;- c(43000, 207000)</code></pre>
-<p>Now create a tidy data set from the above messy state.</p>
-<pre class="r"><code>cleaned_response &lt;- data.frame(response, young_edinburgh,
-                               older_edinburgh, young_glasgow,
-                               older_glasgow)
+<pre class="r"><code>response.types &lt;- c('Yes', 'No')
+edinburgh.1624 &lt;- c(80100, 35900)
+edinburgh.25 &lt;- c(143000, 214800)
+glasgow.1624 &lt;- c(99400, 150400)
+glasgow.25 &lt;- c(43000, 207000)</code></pre>
+<p>Now create a dataframe</p>
+<pre class="r"><code>messy &lt;- data.frame(response.types, 
+                    edinburgh.1624, 
+                    edinburgh.25, 
+                    glasgow.1624, 
+                    glasgow.25)
 
-head(cleaned_response)</code></pre>
-<pre><code>##   response young_edinburgh older_edinburgh young_glasgow older_glasgow
-## 1      Yes           80100          143000         99400         43000
-## 2       No           35900          214800        150400        207000</code></pre>
+head(messy)</code></pre>
+<pre><code>##   response.types edinburgh.1624 edinburgh.25 glasgow.1624 glasgow.25
+## 1            Yes          80100       143000        99400      43000
+## 2             No          35900       214800       150400     207000</code></pre>
+<p><strong><em>Question 3</em></strong> Use the functionality in the <em>tidyr</em> package to convert the data frame to be “tidy data”.</p>
+<pre class="r"><code>tidyData &lt;-gather(messy, city.agerange, responses, edinburgh.1624:glasgow.25)
+tidyData &lt;- separate(tidyData, city.agerange, c(&quot;city&quot;, &quot;agerange&quot;), convert=FALSE)
+tidyData &lt;- extract(tidyData, agerange, c(&quot;lower&quot;, &quot;upper&quot;), regex=&quot;^(\\d{2})(\\d{2})?&quot;, convert=TRUE)
+
+# Show me.
+head(tidyData, n=10)</code></pre>
+<pre><code>##   response.types      city lower upper responses
+## 1            Yes edinburgh    16    24     80100
+## 2             No edinburgh    16    24     35900
+## 3            Yes edinburgh    25    NA    143000
+## 4             No edinburgh    25    NA    214800
+## 5            Yes   glasgow    16    24     99400
+## 6             No   glasgow    16    24    150400
+## 7            Yes   glasgow    25    NA     43000
+## 8             No   glasgow    25    NA    207000</code></pre>
+<pre class="r"><code>summary(tidyData)</code></pre>
+<pre><code>##  response.types     city               lower          upper   
+##  No :4          Length:8           Min.   :16.0   Min.   :24  
+##  Yes:4          Class :character   1st Qu.:16.0   1st Qu.:24  
+##                 Mode  :character   Median :20.5   Median :24  
+##                                    Mean   :20.5   Mean   :24  
+##                                    3rd Qu.:25.0   3rd Qu.:24  
+##                                    Max.   :25.0   Max.   :24  
+##                                                   NA's   :4   
+##    responses     
+##  Min.   : 35900  
+##  1st Qu.: 70825  
+##  Median :121200  
+##  Mean   :121700  
+##  3rd Qu.:164550  
+##  Max.   :214800  
+## </code></pre>
 
 
 </div>
