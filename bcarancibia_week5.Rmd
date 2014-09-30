@@ -1,0 +1,43 @@
+---
+title: "Week 5 Assignment"
+author: "Ben Arancibia"
+date: "September 30, 2014"
+output: html_document
+---
+
+__*Question 1*__
+
+Three questions that I want answer based on the data presented in the assignment are: \n
+
+1: What are the total populations for each city so that the proportion for each response can be calculated.
+
+2: What proportion of the respondents in each city voted yes or no?
+
+3: What proportion of the respondents in each age group voted yes or no?
+
+In order for questions 2 and 3 to be answered, you need the answer for question one.
+
+__*Question 2*__
+```{r}
+require(tidyr)
+require(plyr)
+require(ggplot2)
+```
+Create a dataframe to save this data in its current messy state.
+
+```{r}
+response <- c('Yes', 'No')
+young_edinburgh <- c(80100, 35900)
+older_edinburgh <- c(143000, 214800)
+young_glasgow <- c(99400, 150400)
+older_glasgow <- c(43000, 207000)
+```
+
+Now create a tidy data set from the above messy state.
+```{r}
+cleaned_response <- data.frame(response, young_edinburgh,
+                               older_edinburgh, young_glasgow,
+                               older_glasgow)
+
+head(cleaned_response)
+```
