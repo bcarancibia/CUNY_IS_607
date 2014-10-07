@@ -13,3 +13,5 @@ cast <- luther %>%
   html_nodes("#titleCast .itemprop span") %>%
   html_text()
 cast
+
+
