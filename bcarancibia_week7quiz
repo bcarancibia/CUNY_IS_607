@@ -1,0 +1,35 @@
+Ben Arancibia
+Week 7 Quiz
+
+Postgres SQL
+
+Tutorial database installed
+
+Necessary commands
+
+\connect dvdrental 
+
+#Question 1
+
+\connect dvdrental 
+
+
+#Question 2
+
+Query:
+
+SELECT * FROM film WHERE title LIKE '%bride%';
+
+I get 0 rows
+
+#Question 3
+One example of functionality that exists in PostfreSQL that is a superset of ANSI SQL's functionality is the ability to use LIMIT/OFFSET.
+This function is useful because it can allow the return of partial results sets and doesn't result in you having to scrolls through lots of results in the command line. The downside of this call is that if you are careless it is possible to set a limit for a partial return of a dataset and not realize there are more results to analyze.
+
+#Question 4
+So if someone wanted to delete a customer that owes money there are a couple ways to address this. The fundamentals are the same. First you need to join the table customer with payment based on customer_id. Then you would need to join payment with rental based on rental_id to get the full dataset in order to determine if a customer owes money. 
+
+***NOTE It doesn't say anywhere you want to know the location of this inventory, but you could join inventory to store based on store_id then join this new table to the primary table you created above and join it to the rental based on the inventory_id found in rental table. Really confusing query to mash them together but just in case.... ***
+
+Once you have the appropriate table you can either do a hard delete and remove the customer from the database. I don't think you should do that, but it is an option. The query would be something like DELETE FROM new_table WHERE customer_id = XXXXX. In my opinion the better way to do this would to change the status of the Customer from Active in inactive. You can do this by selecting the customer ID then using the SET command. THe query could look something like this UPDATE new_table SET status = "f" WHERE customer_id = XXXXX;. This is the preferable solution because the customer could pay what they owe and it is easier to change the status of a customer then to create a new user from scratch in the database.
+
