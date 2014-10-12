@@ -18,9 +18,8 @@ Necessary commands
 
 Query:
 
-SELECT * FROM film WHERE title LIKE '%bride%';
-
-I get 0 rows
+SELECT * FROM film WHERE title LIKE '%Bride%';
+Bride Intrigue and Saints Bride.
 
 #Question 3
 One example of functionality that exists in PostfreSQL that is a superset of ANSI SQL's functionality is the ability to use LIMIT/OFFSET.
