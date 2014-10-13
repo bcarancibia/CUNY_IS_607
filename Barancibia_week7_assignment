@@ -1,1 +1,36 @@
 Week 7 Assignment
+
+1) Create a new database.
+
+CREATE DATABASE honduras;
+
+2) Populate your newly created database with two tables that have a one-to-many relationship. 
+You should create the two tables using the CREATE TABLE command. 
+There should be at least one example each of integer, numeric, character, and a date data type in at least one of the two tables. 
+There should be at least one character column that allows NULLs. Deliverable: Your two CREATE TABLE statements.
+
+create table project(
+project_id varchar(100) NOT NULL, 
+project_name varchar(100) NOT NULL, 
+donor varchar(100) NOT NULL, 
+recipient varchar(100)  NOT NULL,
+amount int,
+PRIMARY KEY(project_id)
+);
+
+create table project_info(
+project_id varchar(100) NOT NULL,
+project_active boolean NOT NULL,
+recipient varchar(100) NOT NULL,
+implementing_agency varchar(100) NOT NULL,
+project_start DATE NOT NULL,
+project_end DATE NOT NULL,
+notes varchar(260),
+PRIMARY KEY(recipient),
+FOREIGN KEY (project_id) REFERENCES project(project_id)
+);
+
+3) Populate the two tables with some sample data, using INSERT statements. 
+Each table should contain at least three records, and the data should accurately reflect the one-to-many relationship. 
+There should also be at least one row where the character column that allows NULL values has a value of NULL. 
+Deliverable: your set of INSERT statements.
