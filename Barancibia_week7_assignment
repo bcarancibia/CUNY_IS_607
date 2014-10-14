@@ -34,3 +34,29 @@ FOREIGN KEY (project_id) REFERENCES project(project_id)
 Each table should contain at least three records, and the data should accurately reflect the one-to-many relationship. 
 There should also be at least one row where the character column that allows NULL values has a value of NULL. 
 Deliverable: your set of INSERT statements.
+
+INSERT into project(project_id, project_name, donor, recipient, amount) values('H123', 'Water Purification Project in Teguz', 'USAID', 'Honduras', 10000000);
+
+INSERT into project_info(project_id, project_active, recipient, implementing_agency, project_start, project_end, notes) values('H123', TRUE, 'Honduras', 'AKVO', '2014-03-21', '2016-5-10', NULL);
+
+4)Provide samples of the different kinds of joins across the two tables. 
+You should include one join that performs a WHERE on the COLUMN that allows a NULL value. 
+Deliverable: Your SELECT statements.
+
+SELECT*FROM project;
+
+SELECT*FROM project_info;
+
+--INNER JOIN--
+
+SELECT*from project a INNER JOIN project_info b ON a.project_id = b.project_id;
+
+
+
+SELECT*
+FROM project_info
+WHERE notes='NULL';
+
+
+
+
