@@ -1,7 +1,7 @@
 --Postgresql load in data
 --used command line
 
-CREATE wiki
+CREATE Database wiki
 
 \connect wiki
 
