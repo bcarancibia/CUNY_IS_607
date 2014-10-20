@@ -31,7 +31,7 @@ CREATE TABLE blog_posts (
 CREATE TABLE blog_posts_comments (
 	post_id INTEGER NOT NULL REFERENCES blog_posts(post_id),
 	comment_date DATE NOT NULL,
-	comment_name VARCHAR(50) NOT NULL,
+	comment_username VARCHAR(50) NOT NULL,
 	comment_text VARCHAR(500) NOT NULL
 ); 
 
@@ -50,21 +50,54 @@ VALUES
     ('Googles redesigned Gmail app supports Yahoo and Outlook accounts','Tom','Warren','2014-10-20'),
     ('Spotify Family lets you share a subscription from $14.99 per month','Tom','Warren','2014-10-20'); 
 
-INSERT INTO blog_posts_comments (post_id, comment_date, comment_name, comment_text)
+INSERT INTO blog_posts_comments (post_id, comment_date, comment_username, comment_text)
 VALUES 
-	(1,'2014-10-01','Minh Tue Vo',':) I would like to credit Mr. Nguyen Hoang An (a fellow coordinator of Vietnamese edX translation project and a passionate translator as well), Mr. Nguyen Cong Nam and other translators who have volunteered so much of their times to make the translation available online.'),
-    (3,'2014-08-06','pipi','video??'),
-    (3,'2014-08-06','Nicole Morell','Here’s a video of the process http://youtu.be/MOkB6PJLaH8'),
-    (3,'2014-08-15','Balıkesir Haber','For Video thanks.'),
-    (4,'2014-05-13','Anuncios gratis','I’m not optimistic about the future of Earth’s climate, I don’t trust the man'),
-    (4,'2014-05-15','Modern Tailor','end of time is a bitter truth and we have to face it, we might be able to slow this process but one day it will collapse.'),
-    (4,'2014-05-22','George Kimball','Someday historians will look back and wonder what happened to the scientific community when GW became popular in the late 20th century. The normal standards of scientific proof have been reduced to where they are meaningless'),
-    (4,'2014-05-23','P. Michael Hutchins','I’ve worked through IPCC reports. What I don’t understand is: (imagine you’re talking to an engineer) What do the models really tell us? '),
-    (5,'2014-03-10','Kathryn James','Some years ago at an MIT reunion (I received three degrees in EE from MIT), I learned that MIT was researching the Y chromosome to try to solve male fertility problems.'),
-    (5,'2014-03-11','Carol Willing','Thank you for an informative Faculty Forum. Fascinating research and new major for learning about complex women’s health issues. Having friends coping with endometriosis, I am pleased that MIT is taking a leadership role'),
-    (5,'2014-03-12','Christine Shadle','Thank you for an excellent talk. Near the end you said that endo is an inflammatory disease, and then, that “many other immune diseases wax and wane with pregnancy.” I find this confusing.'),
-    (6,'2014-08-12','RemaxMajesty','social business oh good'),
-    (7,'2014-05-02','C Prem Ambrose','Enjoyed the article” Preventing a Chocolate Drought,” very much. Like dark chocolates very much and everyone does. Some years ago, was very involved in imported chocolates on a small scale as a side business.');
+	(1,'2014-10-20','houkoholic','The removal of the page turn button + having a recessed screen was insanely annoying with the paperwhite. If not for the better screen I vastly prefer having the page button on my 3rd gen Kindle. I’m glad Amazon fixed the two biggest issues with the paperwhite.'),
+    (1,'2014-10-20','dealandi','What’s with those lines and dots? They look out of places. I prefer it cleaned, even if it means I have to memorize the locations to press and swipe.'),
+    (2,'2014-10-20','iamisaactorres','Won’t having access to NFC payments in more places also help Android/Google Wallet users as well? Granted its easier to just authenticate with your fingerprint vs turning on your device, tapping the app, putting in a pin and THEN putting it to the reader. But still. More NFC in more places is a win, right?'),
+    (2,'2014-10-20','forty2j','It helps them in theory, but if the consumer has a problem with the experience (because it’s clumsy or inconvenient, or because they’re not comfortable with what’s being done with their data) then they won’t participate.'),
+    (3,'2014-10-20','stephen.ellerington','What about support for Apple Health?'),
+    (4,'2014-10-20','warisz00r','One less app in my Android devices.'),
+    (4,'2014-10-20','Arthur V.*','Not if you’re running any AOSP-based ROMs, like Cyanogenmod or ParanoidAndroid.'),
+    (5,'2014-10-20','der_Damo','finally – yippie.');
+
+INSERT INTO blog_post_tags(post_id, tags)
+VALUES
+	(1, 'Amazon'),
+	(1, 'Kindle'),
+	(1, 'e-reader'),
+	(1, 'review'),
+	(2, 'PayPal'),
+	(2, 'Apple'),
+	(2, 'Digitial Wallet'),
+	(3, 'Fitbit'),
+	(4, 'Update'),
+	(5, 'Premium'),
+	(5, 'Spotify');
+
+-- Question 5 (Query the Data)--
+
+-- SQL query that returns all of the blog posts, with associated comments and tags --
+SELECT * 
+from blog_posts
+inner join blog_posts_comments on (blog_posts.post_id = blog_posts_comments.post_id)
+inner join blog_post_tags on (blog_posts.post_id = blog_posts_tags.post_id);
+
+--SQL query that returns all of the posts for a given tag--
+SELECT * 
+from blog_posts
+inner join blog_posts_tags on (blog_post.post_id = blog_post_tags.post_id)
+WHERE (blog_post_tags.tags = "PayPal")
+
+
+
+
+
+
+
+
+
+
 
 
 
