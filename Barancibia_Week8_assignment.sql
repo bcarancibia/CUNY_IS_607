@@ -87,7 +87,7 @@ inner join blog_post_tags on (blog_posts.post_id = blog_posts_tags.post_id);
 SELECT * 
 from blog_posts
 inner join blog_posts_tags on (blog_post.post_id = blog_post_tags.post_id)
-WHERE (blog_post_tags.tags = "PayPal")
+WHERE (blog_post_tags.tags = "PayPal");
 
 
 
