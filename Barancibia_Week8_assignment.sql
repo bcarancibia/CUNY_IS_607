@@ -61,7 +61,7 @@ VALUES
     (4,'2014-10-20','Arthur V.*','Not if you’re running any AOSP-based ROMs, like Cyanogenmod or ParanoidAndroid.'),
     (5,'2014-10-20','der_Damo','finally – yippie.');
 
-INSERT INTO blog_post_tags(post_id, tags)
+INSERT INTO blog_posts_tags(post_id, tags)
 VALUES
 	(1, 'Amazon'),
 	(1, 'Kindle'),
@@ -81,13 +81,14 @@ VALUES
 SELECT * 
 from blog_posts
 inner join blog_posts_comments on (blog_posts.post_id = blog_posts_comments.post_id)
-inner join blog_post_tags on (blog_posts.post_id = blog_posts_tags.post_id);
+inner join blog_posts_tags on (blog_posts.post_id = blog_posts_tags.post_id);
 
 --SQL query that returns all of the posts for a given tag--
 SELECT * 
 from blog_posts
-inner join blog_posts_tags on (blog_post.post_id = blog_post_tags.post_id)
-WHERE (blog_post_tags.tags = "PayPal");
+inner join blog_posts_comments on (blog_posts.post_id = blog_posts_comments.post_id)
+inner join blog_posts_tags on (blog_posts.post_id = blog_posts_tags.post_id)
+WHERE (blog_posts_tags.tags = 'Fitbit');
 
 
 
