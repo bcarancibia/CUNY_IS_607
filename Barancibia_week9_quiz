@@ -114,9 +114,36 @@ insert_admin('Dennis Bohnet', 'Vice President', 106500, 'Academic Affairs', 1997
 db.employees.find({ Salary : { $lt : 90000}})
 
 8.	Show the code that will return all professors with salaries less than $90,000.
+
+db.employees.find({ Salary : { $lt : 90000}, Title: /Professor/})
+
 9.	Show the code that will return all Physics professors hired before 2001.
+
+db.emoployees.find({ Department : 'Physics', Hire_Year : {$lt 2001}})
+
 10.	Show the code that will return all professors who teach for departments other than Physics. (This should include professors who teach for Physics and also other departments.)
+
+db.employees.find({ Title : /Professor/, Department : /[^Physics]/})
+
 11.	Show the code that will return all employees who were either hired before 1997 or who have salaries greater than $100,000.
+
+db.employees.find({ $or : [ { Hire_Year : { $lt : 1997 }}, {Salary : { $gt : 100000 }}]})
+
 12.	Suppose Tonja Baldner has been given a 10% raise. Show the code that will update her salary correctly.
+
+db.employees.update(
+    { Name : 'Tonja Baldner' } ,
+    { $inc : 
+        { Salary: 4200 }
+    }
+)
+
 13.	Professor Dewan has been offered a job at another university. Show the code that would remove his record from the database.
+
+db.employees.remove({ Name : 'Raoul Dewan' })
+
 14.	Instead of removing Professor Dewan�s record, we might prefer to create a new collection called pastemployees and move his record there. Show the code that will move his record to the new collection and add a departyear value of 2014 to his record. (You can do it in two steps.)
+
+insert_employee('Raoul Dewan', 'Assistant Professor', 78000, ['Physics', 'Biology'], 2009)
+db.pastemployees.save( db.employees.findOne( { Name : 'Raoul Dewan' }))
+db.employees.update( { Name : 'Raoul Dewan' }, { $set : { departyear : 2014 }})
