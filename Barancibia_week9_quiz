@@ -1,0 +1,76 @@
+Ben Arancibia
+Week 9 Quiz
+10/26/2014
+
+
+Instructions
+This week, we begin our work in NoSQL and in particular MongoDB. In this quiz, you will work through the basic skills of MongoDB, including basic CRUD skills and MongoDB administration skills. 
+
+For each question, your task is to show the code (either in your shell or in the MongoDB command line) to accomplish each task. Place your answers in either a text or PDF file. For convenience, this assignment is provided in plain text, as a Word Document, and as a PDF file. Feel free to insert your answers into our document or to create your own as you prefer.
+This quiz is due by Sunday, October 26, 2014 at 11:59 p.m. EDT.
+
+Preliminaries
+The data we will work with are a sample of fictional employees at a college. There are six individuals in our sample. Their details are as follows:
+Name: Wendy Yasquez
+Title: Assistant Professor
+Salary: $86,000
+Department: Computer Science
+Hire_Year: 1998
+
+Name: Raoul Dewan
+Title: Assistant Professor
+Salary: $78,000
+Department: Physics, Biology
+Hire_Year: 2009
+
+Name: Isabelle Winters
+Title: Associate Professor
+Salary: $92,000
+Department: Physics
+Hire_Year: 1995
+
+Name: Jack McDunn
+Title: Associate Professor
+Salary: $101,000
+Department: Physics
+Hire_Year: 1993
+
+Name: Tonja Baldner
+Title: Assistant to the Dean
+Salary: $42,000
+Division: Arts and Sciences
+Hire_Year: 2001
+
+Name: Dennis Bohnet
+Title: Vice President
+Salary: $106,500
+Division: Academic Affairs
+Location: Main Campus
+Hire_Year: 1997
+
+Pay close attention to the records. In particular, note that Raoul Dewan is a professor in two departments.
+Most of the following questions can be answered quite easily by inspection. This is by design so that you can make sure your code is returning the results desired. You are strongly encouraged to take advantage of the ability to check your work!
+Questions:
+1.	Create a new MongoDB database called employment.
+
+> use employment
+switched to db employment
+> db
+employment
+>
+
+2.	Insert a new record for Wendy Yasquez into the database and into a collection called employees.
+
+
+3.	Write a JavaScript function to insert new professors into the employees collection.
+4.	Use this function to insert the records for Raoul Dewan, Isabelle Winters, and Jack McDunn.
+5.	Write a JavaScript function to insert new administrative employees into the employees collection.
+6.	Use this function to insert the records for Tonja Baldner and Dennis Bohnet.
+7.	Show the code that will return all employees with salaries less than $90,000.
+8.	Show the code that will return all professors with salaries less than $90,000.
+9.	Show the code that will return all Physics professors hired before 2001.
+10.	Show the code that will return all professors who teach for departments other than Physics. (This should include professors who teach for Physics and also other departments.)
+11.	Show the code that will return all employees who were either hired before 1997 or who have salaries greater than $100,000.
+12.	Suppose Tonja Baldner has been given a 10% raise. Show the code that will update her salary correctly.
+13.	Professor Dewan has been offered a job at another university. Show the code that would remove his record from the database.
+14.	Instead of removing Professor Dewan�s record, we might prefer to create a new collection called pastemployees and move his record there. Show the code that will move his record to the new collection and add a departyear value of 2014 to his record. (You can do it in two steps.)
