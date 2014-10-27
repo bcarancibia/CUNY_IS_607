@@ -119,7 +119,7 @@ db.employees.find({ Salary : { $lt : 90000}, Title: /Professor/})
 
 9.	Show the code that will return all Physics professors hired before 2001.
 
-db.emoployees.find({ Department : 'Physics', Hire_Year : {$lt 2001}})
+db.employees.find({ Department : "Physics", Hire_Year : {$lt 2001}})
 
 10.	Show the code that will return all professors who teach for departments other than Physics. (This should include professors who teach for Physics and also other departments.)
 
