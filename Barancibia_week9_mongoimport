@@ -2,13 +2,13 @@ Ben Arancibia
 Week 9 Assignment
 10/27/2014
 
-1)
+1) IN MONGO SHELL
 > use unitedstates
 switched to db unitedstates
 > db
 unitedstates
 
-2)
+2) In directory where data is located
 
 mongoimport --db unitedstates --collection unitedstates --headerline --type csv --file /users/bcarancibia/CUNY_IS_607/Week_9_Data/statedata.csv
 
