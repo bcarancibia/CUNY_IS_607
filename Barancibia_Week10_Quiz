@@ -1,0 +1,35 @@
+Benjamin Arancibia
+11/1/2014
+Week 10 Quiz
+
+
+
+> use zips
+switched to db zips
+> db
+zips
+>
+
+mongoimport --db zips --collection zips --file "/users/bcaranicbia/CUNY_IS_607/zips.json"
+
+1) Which states have populations less than eight million?
+
+db.zips.aggregate({ $group:{ _id: "$state", statePop: { $sum : "$pop" } } },{ $match: {totalPop: { $gt: 8000000 } }})
+
+2) What is the fifth largest city in New York?
+
+db.zips.aggregate(
+	{ $match : { state: "NY" } },
+	{ $group:
+		{ _id: "$city",
+			pop: { $sum: "$pop" } 
+		} 
+	},
+	{ $sort: { pop: -1 } },
+	{ $limit: 5}, 
+	{ $skip: 4}
+
+
+3) What is the total number of cities in each state according to this data set?
+
+db.zips.aggregate({ $group: { _id: {state: "$state", city: "$city"}}},{ $group: {_id: "$_id.state", count: {$sum: 1}}})
