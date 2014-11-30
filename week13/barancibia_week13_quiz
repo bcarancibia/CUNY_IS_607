@@ -1,0 +1,23 @@
+Benjamin Arancibia
+Week 13 Quiz
+
+Question 1
+
+I chose to do a comparison of R and Julia. Using information on the R microbenchmark website (http://adv-r.had.co.nz/Performance.html) I created a function to compare different methods of taking a squareroot.
+
+require(microbenchmark)
+
+x <- runif(100000000)
+microbenchmark(
+  sqrt(x),
+  x ^ 0.5
+)
+
+I decided to compare the multiple methods in R to allow me to also look at multiple methods in Julia. More tests allows for more confidence in the conclusion made about performance. The above code was run and the following results were produced:
+
+Unit: microseconds
+    expr      min       lq      mean    median        uq      max neval
+ sqrt(x)  404.415  636.036  663.9478  651.5895  671.5055 1072.087   100
+   x^0.5 2589.715 2848.887 2962.9626 2882.5090 2943.6165 5035.727   100
+
+The same comparisons were performed in Julia.
