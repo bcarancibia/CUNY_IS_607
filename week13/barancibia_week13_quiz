@@ -50,4 +50,47 @@ julia> Julia_perfomance
 0.058468239  0.056899262  0.061884639  0.056630974  
 
 
+The results show that Julia was significantly faster than R in the standard deviation calculation above. Julia took about 0.05 seconds while R took 0.293 seconds. The result could be a bit skewed because the julia code is devectorized, if the Julia code was written a bit different then the Julia time needed could be higher.
+
+
+Questions 2
+
+Create a stored procedure that inserts or updates a table.
+
+CREATE OR REPLACE FUNCTION
+    upsert_description(thename text, thedescription text)
+RETURNS INT
+AS $$
+
+    DECLARE theid INT;
+    BEGIN
+	    SELECT  ID FROM ObjectList WHERE name = theName INTO theid LIMIT 1;
+	    IF theid IS NOT NULL THEN
+	         UPDATE ObjectList SET description = theDescription WHERE ID = theid;
+	    ELSE
+		INSERT INTO ObjectList (coffee_name, coffee_description) 
+VALUES (thename, thedescription) RETURNING id INTO theid;
+	    END IF;
+
+	    RETURN theid;
+    END;
+    $$
+LANGUAGE plpgsql;
+
+
+CREATE TABLE ObjectList
+(
+	id serial PRIMARY KEY,
+	coffee_name VARCHAR(64),
+	coffee_description VARCHAR(256)
+);
+
+
+SELECT upsert_description('Espresso', 'Espressos keep developers going in the morning. There are never enough of them.');
+SELECT upsert_description('Cappuccino', 'For the finer moments. Wrap your espresso in a tasty layer of foam.');
+SELECT upsert_description('Mocha', 'Chocolate.');
+SELECT upsert_description('Latte', 'If you are more into milk than into foam.');
+
+SELECT * FROM ObjectList
+
 
