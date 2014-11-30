@@ -3,21 +3,51 @@ Week 13 Quiz
 
 Question 1
 
-I chose to do a comparison of R and Julia. Using information on the R microbenchmark website (http://adv-r.had.co.nz/Performance.html) I created a function to compare different methods of taking a squareroot.
+I chose to do a comparison of R and Julia. Using information on the R microbenchmark website (http://adv-r.had.co.nz/Performance.html) I created a function to calculate standard deviation from 1000 elements from a uniform distribution.
 
-require(microbenchmark)
+run  <- function() {
+    ssize <- 10000
+    nboot <- 1000
+    x <- runif(ssize)
+    y <- replicate(nboot, sd(sample(x, ssize, TRUE)))
+    sd(y)
+}
 
-x <- runif(100000000)
-microbenchmark(
-  sqrt(x),
-  x ^ 0.5
-)
+for (i in 1:4) {
+    cat(system.time(run())[3], " ")
+}
 
-I decided to compare the multiple methods in R to allow me to also look at multiple methods in Julia. More tests allows for more confidence in the conclusion made about performance. The above code was run and the following results were produced:
 
-Unit: microseconds
-    expr      min       lq      mean    median        uq      max neval
- sqrt(x)  404.415  636.036  663.9478  651.5895  671.5055 1072.087   100
-   x^0.5 2589.715 2848.887 2962.9626 2882.5090 2943.6165 5035.727   100
+The results of the R function are below:
+
+Results: 0.293  0.28  0.271  0.269  
+
 
 The same comparisons were performed in Julia.
+
+function run()
+    ssize = 10000
+    nboot = 1000
+    x = rand(ssize)
+    y = Array(Float64,nboot)
+    bx = Array(Float64, ssize)
+    for i in 1:nboot
+        for j in 1:ssize
+            bx[j] = x[(rand(Uint32) % ssize) + 1]
+        end
+        y[i] = std(bx)
+    end
+    std(y)
+end
+
+for i in 1:4
+    print("$(@elapsed run())  ")
+end
+
+The results of the Julia function are below:
+
+julia> Julia_perfomance
+0.058468239  0.056899262  0.061884639  0.056630974  
+
+
+

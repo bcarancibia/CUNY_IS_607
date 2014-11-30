@@ -1,8 +1,18 @@
-function sqrt(a)
-        a ^ 0.5
-
-        println()
+function run()
+    ssize = 10000
+    nboot = 1000
+    x = rand(ssize)
+    y = Array(Float64,nboot)
+    bx = Array(Float64, ssize)
+    for i in 1:nboot
+        for j in 1:ssize
+            bx[j] = x[(rand(Uint32) % ssize) + 1]
+        end
+        y[i] = std(bx)
+    end
+    std(y)
 end
 
-b = Array(Int32,100000000)
-@time sqrt(b)
+for i in 1:4
+    print("$(@elapsed run())  ")
+end
