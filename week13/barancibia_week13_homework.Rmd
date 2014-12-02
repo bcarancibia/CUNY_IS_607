@@ -1,0 +1,43 @@
+---
+title: "Week 13 Assignment"
+author: "Ben Arancibia"
+date: "December 1, 2014"
+output: html_document
+---
+
+An R package that covers the same functionality as a base R code. Using a dataset documenting crimes in the US by state which is available here: http://www.statsblogs.com/2014/02/10/how-dplyr-replaced-my-most-common-r-idiom/ read in the dataset into R.
+
+```{r}
+require(dplyr)
+crime_state <- read.csv("/users/bcarancibia/CUNY_IS_607/week13/CrimeStatebyState.csv")
+```
+
+Filter the rows using base R and dplyr.
+
+```{r}
+system.time(crime_ny_2005_R <- crime_state[crime_state$Year==2005 & crime_state$State=="New York", ])
+
+system.time(crime_ny_2005_dplyr <- filter(crime_state, State=="New York", Year==2005))
+
+```
+
+As seen from the results of the system time it looks like the base R was a little bit quicker, but very close. This is not a very advanced function so the results should not be that surprising.
+
+Now let's do an aggregation vs summarization.
+
+```{r}
+#R
+system.time(summary1 <- aggregate(Count ~ Type.of.Crime, data=crime_ny_2005_R, FUN=sum))
+system.time(summary2 <- aggregate(Count ~ Type.of.Crime, data=crime_ny_2005_R, FUN=length))
+system.time(summary_crime_ny_2005_R <- merge(summary1, summary2, by="Type.of.Crime"))
+
+#Dplyr
+system.time(by.type <- group_by(crime_ny_2005_dplyr, Type.of.Crime))
+system.time(summary_crime_ny_2005_dplyr <- summarise(by.type, num.types = n(), counts = sum(Count)))
+
+```
+
+As seen from the results from the R code vs the dplyr code there are a couple differences resulting in dplyr being quicker. Using dplyr a user only has to write to lines of dplyr R code instead of of three lines of base R code. Also, dplyr is faster in all phases of the code versus R.
+
+
+
