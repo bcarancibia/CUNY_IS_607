@@ -1,0 +1,59 @@
+Benjamin Arancibia
+December 7, 2014
+IS 607 – Week 14 Quiz
+
+How long will it take to copy all data from 2007 to 2014 to a local machine from Wikipedia's hourly data files. The idea of this analysis is to look into the idea of moving code to data instead of data to code. The steps necessary are to copy all the data, unzip it, load the data, process the data, and send the processed data results back to the web server. To perform this analysis certain assumptions need to be made.
+
+Assumptions:
+Internet Connection: 75Mbps/25Mbps (Download/Upload)
+Unzip Speed: 3MB per second
+Zipped to unzipped file size: unzipped = 4*zipped
+Average zipped size: 90MB
+Number of files per month: 700
+DB Processing: 150MB per second
+
+Download:
+
+=90 (single file)* 700 (files per month) * 12 (months per year) * 8 (years) / 75 (download speed) * 60 seconds * 60 minutes * 24 hours
+
+=6048000/6480000
+
+=.93 days which is about 22.4 hours
+
+Unzip
+
+=6048000 / 3 (unzip speed) * 60 * 60 *24
+
+=6048000 / 259200
+
+=23.3 days
+
+Load file
+
+=6048000 / 25 (upload speed)*60*60*24
+
+=6048000/2160000
+
+=2.8 days
+
+Process the data
+
+=6048000 / 150 (db processing speed) *60*60*24
+
+=6048000 / 12960000
+
+=.4666 days which is 11.2 hours
+
+Upload the data
+
+=6048000 / 25 (upload speed)*60*60*24
+
+=6048000/2160000
+
+=2.8 days
+
+Number of days necessary to download the data, unzip, load file into DB, process, and then upload the data to a webserver is .93+23.3+2.8+.4666+2.8. This result is 20.2966 days, essentially a full month. There are a lot of different ways to manipulate this data and process it, but this is a very simple way to approach the question.  
+
+
+
+
