@@ -1,0 +1,10 @@
+---
+title: "MSDA 607 Final Project"
+author: "Ben Arancibia"
+date: "December 9, 2014"
+output: pdf_document
+---
+
+__**Background**__
+
+This is report is the MSDA 607 - Data Acquistion and Management Final Project. 
