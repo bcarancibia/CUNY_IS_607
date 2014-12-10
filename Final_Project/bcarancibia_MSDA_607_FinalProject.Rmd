@@ -7,4 +7,20 @@ output: pdf_document
 
 __**Background**__
 
-This is report is the MSDA 607 - Data Acquistion and Management Final Project. 
+This is report is the MSDA 607 - Data Acquistion and Management Final Project. As detailed in the project proposal three different datasets will be used to look at financial foreign aid in Honduras. The three datasets are Honduras foreign aid commitments, Honduras financial foreign aid project's locations, and an indicator level dataset with various types of data. This project will be broken into five sections as follows: 1) Introduction and Workflow, 2) Obtaining the Data, 3) Data Transformation, 4) Statistical Analysis and Visualization, 5) Conclusion. Most of the data was collected via the Aid Management Platform (AMP) which my company builds for developing countries to record their foreign aid. This project is important and has real world applications because the results will be used to continue my company's transition from data collectors towards data analysis. 
+
+__**Introduction and Workflow**__
+
+This project is using three different datasets created by different organizations. The Honduras Foreign Aid Commitments was entered into the AMP by the Government of Honduras (GoH), the AMP data is stored in a PostGres Database. The locations data for each project was obtained from the Donors that fund projects in Honduras. This location data is not shared with the GoH and is one of the many pitfalls of the international development sector. The indicator level dataset which has data from the municipalities of Honduras including population density and number of Hospitals per municipality was created by a GoH Ministry called El Sistema Nacional de Información Territorial which has been since dissolved because of elections last year.
+
+The data science workflow of this project will follow a typical OSEMN workflow, which can be seen below.
+
+![Figure 1 Data Science OSEMN Worflow.](/users/bcarancibia/CUNY_IS_607/Final_Project/OSEMN_Flow.png)
+
+This workflow will be used during this analysis.
+
+__**Obtain the Data**__
+
+
+__**Obtaining the Data**__
+
