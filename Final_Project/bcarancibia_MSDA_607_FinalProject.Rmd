@@ -19,8 +19,74 @@ The data science workflow of this project will follow a typical OSEMN workflow, 
 
 This workflow will be used during this analysis.
 
+
 __**Obtain the Data**__
 
+The data was obtained from three different sources. The Honduras Foreign Aid Projects are located in a Postgres Database. Unfortunately do to security reasons this report cannot have a direct query to the database, but the query used can be shown and how a user would connect to PostGreSQL Database from R if desired (for this project the command line was used).
 
-__**Obtaining the Data**__
+```{r, eval=FALSE}
+library(sqldf)
+
+library(RPostgreSQL)
+ 
+drv <- dbDriver("PostgreSQL")
+db <- dbConnect(drv, dbname="Honduras",
+                 user="username", password="password")
+
+
+sqldf("SELECT * 
+      FROM 
+      view_todos_proyectos") # view for all projects in the database
+
+sqldf("COPY (SELECT * 
+      FROM view_todos_proyectos) 
+      TO '/users/bcarancibia/CUNY_IS_607/Final_Project' 
+      USING DELIMITERS ',' WITH  CSV") # copy for all projects in the database
+
+```
+
+I exported the data using a view because there are about ~150 tables in the database with different data, it is just easier to select the view and export. To get the view a user would need to query and join about 45 tables to get all the different variables shown in an entire db export, this is something currently being streamlined during a reengineering process. This data is completely open and can be downloaded form the Honduras AMP website www.pgc.sre.gob.hn.
+
+The other two datasets were downloaded in CSV format. The locations data is downloaded from the GoH AMP Website (www.pgc.sre.gob.hn). The SINIT dataset which is the indicator dataset was downloaded from Development Gateway's internal repository of data Wiki.
+
+The three datasets are then imported into R.
+
+```{r}
+
+
+honduras_indicator = read.csv("/users/bcarancibia/CUNY_IS_607/Final_Project/indicator_honduras.csv", 
+                    header = TRUE)
+
+honduras_projects = read.csv("/users/bcarancibia/CUNY_IS_607/Final_Project/commitments_honduras.csv", 
+                    header = TRUE)
+
+honduras_locations = read.csv("/users/bcarancibia/CUNY_IS_607/Final_Project/locations_honduras.csv", 
+                    header = TRUE)
+
+
+
+```
+
+Always good to take a look at the data after import to make sure everything went well.
+
+```{r,eval=FALSE}
+head(honduras_indicator) #indicator
+
+head(honduras_projects) #project commitments
+
+head(honduras_locations) #locations of projects
+
+```
+
+After performing this there are about 15 pages of data to be shown which is a lot for three datasets and this size is not the focus of this report. It also means there is a lot of data that can be scrubbed and trimmed down.
+
+__**Data Transformation**__
+
+Now that the data has been imported
+
+
+__**Statistical Analysis and Visualization**__
+
+
+__**Conclusion**__
 
