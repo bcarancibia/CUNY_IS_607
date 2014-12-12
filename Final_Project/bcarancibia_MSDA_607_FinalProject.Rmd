@@ -122,8 +122,15 @@ hn_projects_locations <- project_locations[c(1:153, 155, 156, 157)]
 
 __**Statistical Analysis and Visualization**__
 
+Now that the data is in a final version, it makes sense to do a summary analysis on some of the data fields. One data field to do a summary of is the Total data field, which is the total amount of commitments (money) per project over the entire project. Many times projects last multiple years.
 
+```{r}
+summary(hn_projects_locations$Total) #summary stats of projects
+sd(hn_projects_locations$Total) #standard deviation of projects
 
+```
+
+The standard deviation for total projects is 20,776,332 USD. That is a really large standard deviation. It makes sense to aggregate the totals per sector.
 
 
 
