@@ -82,18 +82,18 @@ After performing this there are about 15 pages of data to be shown which is a lo
 
 __**Data Transformation**__
 
-Now that the data has been imported a couple data transformations need to be done. The projects and locations need to be joined by the ID known as AMPID in projects and Codigo PGC in the locations table. After joining these two files together a new file will be created with just the columns needed to do analysis. This new file will then be joined with indicator data by municipality.
+Now that the data has been imported a couple data transformations need to be done. The projects and locations need to be joined by the ID known as AMPID. After joining these two files together a new file will be created with just the columns needed to do analysis. This new file will then be joined with indicator data by municipality.
 
 
 The first step is to a subset of the Honduras Projects dataset. If you were to look at Honduras Projects view, you would see that there are 185 variables. 185 variables makes it very complicated to look at the data and joining it with another file of will be difficult and cumbersome. For this report the following fields will be selected: 
 
-*AMPID
-*Sector.Ejecutor (Executing Sector)
-*Nombre.de.Proyecto.Programa (Name of the Project/Program)
-*Agencia.financiera (Financing Agency)
-*Grupo.Donante (Donor Group)
-*Socio.al.desarrollo.Responsable (Responsible Development Group)
-*All Commitment Months by Year
+* AMPID
+* Sector.Ejecutor (Executing Sector)
+* Nombre.de.Proyecto.Programa (Name of the Project/Program)
+* Agencia.financiera (Financing Agency)
+* Grupo.Donante (Donor Group)
+* Socio.al.desarrollo.Responsable (Responsible Development Group)
+* All Commitment Months by Year
 
 Subset below:
 
@@ -110,13 +110,21 @@ project_locations <- merge(hn_project_subset, honduras_locations, by="AMPID")
 
 ```
 
+Looking at the successful merge there are now some repeated fields, i.e. "TITLE" is the same as Name of Project/Program. For this report, a final subset will be done in order to create the final dataset to be analyzed and visualized.
 
+Final Subset below:
 
+```{r}
+hn_projects_locations <- project_locations[c(1:153, 155, 156, 157)]
 
-
+```
 
 
 __**Statistical Analysis and Visualization**__
+
+
+
+
 
 
 __**Conclusion**__
