@@ -85,6 +85,35 @@ __**Data Transformation**__
 Now that the data has been imported a couple data transformations need to be done. The projects and locations need to be joined by the ID known as AMPID in projects and Codigo PGC in the locations table. After joining these two files together a new file will be created with just the columns needed to do analysis. This new file will then be joined with indicator data by municipality.
 
 
+The first step is to a subset of the Honduras Projects dataset. If you were to look at Honduras Projects view, you would see that there are 185 variables. 185 variables makes it very complicated to look at the data and joining it with another file of will be difficult and cumbersome. For this report the following fields will be selected: 
+
+*AMPID
+*Sector.Ejecutor (Executing Sector)
+*Nombre.de.Proyecto.Programa (Name of the Project/Program)
+*Agencia.financiera (Financing Agency)
+*Grupo.Donante (Donor Group)
+*Socio.al.desarrollo.Responsable (Responsible Development Group)
+*All Commitment Months by Year
+
+Subset below:
+
+```{r}
+
+hn_project_subset <- honduras_projects[c(1,5,6,13,16,26,39:185)]
+hn_project_subset[is.na(hn_project_subset)] <- 0 #make NAs = 0
+```
+
+Now that there is a subset of data, the Honduras Project Subset will be joined with the Honduras Locations.
+
+```{r}
+project_locations <- merge(hn_project_subset, honduras_locations, by="AMPID")
+
+```
+
+
+
+
+
 
 
 __**Statistical Analysis and Visualization**__
