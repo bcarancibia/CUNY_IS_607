@@ -82,7 +82,9 @@ After performing this there are about 15 pages of data to be shown which is a lo
 
 __**Data Transformation**__
 
-Now that the data has been imported
+Now that the data has been imported a couple data transformations need to be done. The projects and locations need to be joined by the ID known as AMPID in projects and Codigo PGC in the locations table. After joining these two files together a new file will be created with just the columns needed to do analysis. This new file will then be joined with indicator data by municipality.
+
+
 
 
 __**Statistical Analysis and Visualization**__
