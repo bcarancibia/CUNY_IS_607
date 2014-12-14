@@ -7,11 +7,11 @@ output: pdf_document
 
 __**Background**__
 
-This is report is the MSDA 607 - Data Acquistion and Management Final Project. In the project proposal three different datasets were be used to look at financial foreign aid in Honduras. The three datasets are Honduras foreign aid commitments, Honduras financial foreign aid project's locations, and an indicator level dataset with various types of data; however, the indicator level dataset will not be used in this report. The public no longer has access to this data set because the Government of Honduras Ministry, El Sistema Nacional de Información Territorial, which maintained this data set has been dissolved because recent of elections. As a result only two datasets will be used, Honduras foreign aid commitments and Honduras financial foreign aid project's locations. This project will be broken into five sections as follows: 1) Introduction and Workflow, 2) Obtaining the Data, 3) Data Transformation, 4) Statistical Analysis and Visualization, 5) Conclusion. Most of the data was collected via the Aid Management Platform (AMP) which my company builds for developing countries to record their foreign aid. This project is important and has real world applications because the results will be used to continue my company's transition from data collectors towards data analysis. 
+This report is for the MSDA 607 - Data Acquistion and Management Final Project. In the project proposal three different datasets were be used to look at financial foreign aid in Honduras. The three datasets are Honduras foreign aid commitments, Honduras financial foreign aid project's locations, and an indicator level dataset with various types of data; however, the indicator level dataset will not be used in this report. The public no longer has access to this data set because the Government of Honduras Ministry, El Sistema Nacional de Información Territorial, which maintained this data set has been dissolved due to recent of elections. As a result only two datasets will be used, Honduras foreign aid commitments and Honduras financial foreign aid project's locations. This project will be broken into five sections as follows: 1) Introduction and Workflow, 2) Obtaining the Data, 3) Data Transformation, 4) Statistical Analysis and Visualization, 5) Conclusion. Most of the data was collected via the Aid Management Platform (AMP) which my company builds for developing countries to record their foreign aid. This project is important and has real world applications because the results will be used to continue my company's transition from data collectors to data analysis. 
 
 __**Introduction and Workflow**__
 
-This project is using two different datasets created by different organizations. The Honduras Foreign Aid Commitments was entered into the AMP by the Government of Honduras (GoH), the AMP data is stored in a PostGres Database. The locations data for each project was obtained from the Donors that fund projects in Honduras. This location data is not shared with the GoH and is one of the many pitfalls of the international development sector. 
+This project is using two different datasets created by different organizations. The Honduras Foreign Aid Commitments was gathered and entered into the AMP by the Government of Honduras (GoH), the AMP data is stored in a PostgreSQL Database. The locations data for each project was obtained from the Donors that fund projects in Honduras. This location data, until now, is not shared with the GoH and is one of the many pitfalls of the international development sector. 
 
 The data science workflow of this project will follow a typical OSEMN workflow, which can be seen below.
 
@@ -22,7 +22,7 @@ This workflow will be used during this analysis.
 
 __**Obtain the Data**__
 
-The data was obtained from two different sources. The Honduras Foreign Aid Projects are located in a Postgres Database. Unfortunately do to security reasons this report cannot have a direct query to the database, but the query used can be shown and how a user would connect to PostGreSQL Database from R if desired (for this project the command line was used).
+The data was obtained from two different sources. The Honduras Foreign Aid Projects are located in a PostgreSQL Database. Unfortunately due to security reasons this report cannot have a direct query to the database, but a similar query used can be shown and this report will show how a user would connect to PostgreSQL Database from R if desired (for this project the command line was used).
 
 ```{r, eval=FALSE}
 library(sqldf)
@@ -45,11 +45,11 @@ sqldf("COPY (SELECT *
 
 ```
 
-I exported the data using a view because there are about ~150 tables in the database with different data, it is just easier to select the view and export. To get the view a user would need to query and join about 45 tables to get all the different variables shown in an entire db export, this is something currently being streamlined during a reengineering process. This data is completely open and can be downloaded form the Honduras AMP website www.pgc.sre.gob.hn.
+I exported the data using a view because there are about 150 tables and another 150 views in the database with different data, it is just easier to select the view and export. To get the all project view a user would need to query and join about 45 tables to get all the different columns shown in an entire db export, this is something currently being streamlined during a reengineering process. This data is completely open and can be downloaded form the Honduras AMP website www.pgc.sre.gob.hn.
 
-The other dataset was downloaded in CSV format. The locations data is downloaded from the GoH AMP Website (www.pgc.sre.gob.hn). 
+The other dataset was downloaded in CSV format. The locations data was downloaded from the GoH AMP Website (www.pgc.sre.gob.hn). 
 
-The two datasets are then imported into R.
+The two datasets were then imported into R.
 
 ```{r}
 
@@ -73,11 +73,11 @@ head(honduras_locations) #locations of projects
 
 ```
 
-After performing this there are about 15 pages of data to be shown which is a lot for three datasets and this size is not the focus of this report. It also means there is a lot of data that can be scrubbed and trimmed down.
+After performing this there are about 15 pages of data to be shown which is a lot for two datasets and this is not the focus of this report. It also means there is a lot of data that can be scrubbed and trimmed down.
 
 __**Data Transformation**__
 
-Now that the data has been imported a couple data transformations need to be done. The projects and locations need to be joined by the ID known as AMPID. After joining these two files together a new file will be created with just the columns needed to do analysis. This new file will then be joined with indicator data by municipality.
+Now that the data has been imported a couple data transformations need to be done. The projects and locations need to be joined by the ID known as AMPID. After joining these two files together a new file will be created with just the columns needed to do analysis.
 
 
 The first step is to a subset of the Honduras Projects dataset. If you were to look at Honduras Projects view, you would see that there are 185 variables. 185 variables makes it very complicated to look at the data and joining it with another file of will be difficult and cumbersome. For this report the following fields will be selected: 
@@ -117,7 +117,7 @@ hn_projects_locations <- project_locations[c(1:153, 155, 156, 157)]
 
 __**Statistical Analysis and Visualization**__
 
-Now that the data is in a final version, it makes sense to do a summary analysis on some of the data fields. One data field to do a summary of is the Total data field, which is the total amount of commitments (money) per project over the entire project. Many times projects last multiple years.
+Now that the data is in a final version, it makes sense to do a summary analysis on some of the data fields. One data field to do a summary of is the Total data field, which is the total amount of commitments (money in USD) per project over the entire project. Many times projects last multiple years.
 
 ```{r}
 summary(hn_projects_locations$Total) #summary stats of projects
@@ -125,7 +125,7 @@ sd(hn_projects_locations$Total) #standard deviation of projects
 
 ```
 
-The standard deviation for total projects is 20,776,332 USD. That is a large standard deviation. Create a new field that is aggregate of each total by sector.  Using ggplot2 plot the totals of each sector of foreign aid projects.
+The standard deviation for total projects is 20,776,332 USD, which is larger than the average of the foreign projects 19,400,000 USD. Create a new field that is aggregate of each total by sector.  Using ggplot2 plot the totals of each sector of foreign aid projects.
 
 ```{r}
 require(dplyr)
@@ -136,13 +136,13 @@ summary_by_sector <- summarise(by_sector, count_each_sector = n(),
 
 order_summary_sector <- summary_by_sector[order(-summary_by_sector$total_by_sector),]
 
-order_summary_sector
+order_summary_sector #top sectors
 
 as.numeric(as.character(summary_by_sector$total_by_sector))#convert total by sector to numeric
 
 ```
 
-As seen in ordered by aggregateed sector there are 19 different sectors with the largest amount of foreign aid going to Multisector and the smallest amount of aid going to Programas y Politicas de Poblacion y Salud (Programs and Politics of Health and Population). The sectors best defined and receive the most amount of aid are Transporte y Almacenaje and Agriculture. This makes sense because of Hurricane Mitch in the late 1990s wiped out about 80% of Honduras' infrasture and the country is still trying to recover from that hurricane. Also an interesting thing to look at in the data is that there is a sector without a named defined. There still obvious data clean up and better data management that needs to be done in-country.
+As seen in ordered by aggregateed sector there are 19 different sectors with the largest amount of foreign aid going to Multisector and the smallest amount of aid going to Programas y Politicas de Poblacion y Salud (Programs and Politics of Health and Population). The most specific sectors and receive the most amount of aid are Transporte y Almacenaje and Agriculture. This makes sense because Hurricane Mitch in 1998 wiped out about 80% of Honduras' infrasture and the country is still trying to recover from that hurricane. Also an interesting thing to look at in the data is that there is a sector without a named defined. There still obvious data clean up and better data management that needs to be done in-country.
 
 ```{r}
 require(ggplot2)
@@ -156,8 +156,6 @@ f1
 
 ```
 
-Interesting to see the amounts per sector.
-
 This report will now map the Honduras Project locations using rworldmap which was not covered in class.
 
 ```{r}
@@ -170,9 +168,9 @@ points(hn_projects_locations$LONGITUDE, hn_projects_locations$LATITUDE, col = "r
 
 ```
 
-This plot is an over of all projects in Honduras and there are projects geocoded outside of the country. These are regional projects and take place in Guatemala, Nicaragua, and Dominician Republic. Thie report will now look at the top three sector to see where they are located. First a subset of the data needs to be taken. The top three sectors as seen from the order summary sector are:
+This plot is an overview of all projects in Honduras and from the plotting can see there are projects outside of Honduras. These are regional projects and take place in Guatemala, Nicaragua, and Dominician Republic. This report will now look at the top three sectors to see where projects are located in country. First a subset of the data needs to be performed. The top three sectors as seen from the order summary sector are:
 
-* MULTISECTOR / CORTE CRUZADO  
+* MULTISECTOR/CORTE CRUZADO
 * TRANSPORTE Y ALMACENAJE
 * AGRICULTURA
 
@@ -199,7 +197,7 @@ points(agricultura$LONGITUDE, agricultura$LATITUDE, col = "grey", cex = .6)
 
 ```
 
-There is a lot of information at one time, plot the data subsets apart to try to discern new information.
+There is a lot of information at one time, but there is a general clustering in the south of Honduras. This report will now look at the data subsets apart to try to discern new information.
 
 __Multisector__
 ```{r}
@@ -229,7 +227,7 @@ points(agricultura$LONGITUDE, agricultura$LATITUDE, col = "grey", cex = .6)
 ```
 
 
-These three plots show interesting trends. Projects that are labeled Multisector are around the entire country but are primarily in the south east and west of the country. The south east of Honduras is where the capital, Tegucigalpa, is located. Projects with the transport sector are primarily in the south of the country. It also appears that the projects are in a line very close to each other. This makes sense because that is the new national highway being built that will split the country in two. Please see the below Google Maps.
+These three plots show interesting trends. Projects that are labeled Multisector exist around the entire country but are primarily in the south east and west of the country. The south east of Honduras is where the capital, Tegucigalpa, is located. Transport sector projects are primarily in the south of the country. It also appears that the projects are in a line very close to each other. This makes sense because that is the new national highway being built that will split the country in two. Please see the below Google Maps.
 
 ```{r}
 require(ggmap)
@@ -257,9 +255,9 @@ There is definite clustering of agricultura and transporte projects. The Governm
 
 __**Conclusion**__
 
-This report is an exploratory data analysis and initial plotting of Honduras Foreign Aid Projects. What makes this exploratory data anslysis unique is that the locations of foreign aid projects in Honduras had never existed in a complied manner. Donors within the country had the locations of their projects, but never exchanged this information with other donors. Now that there is a compiled list of locations that can be compiled to Projects located in the Government of Honduras database. The average project funded  19,400,000 USD with the standard deviation being 20,776,332 USD. Statistically, a standard deviation that is larger than a mean indicates that there will be little to no statistically significant differences between mean and zero. This means that the data is non-normal. This is acceptable for the dataset because foreign aid projects are not tested if they are significant based t-tests. Foreign Aid Projects Significance is based on outcome of the projects i.e. municipality's poverty rate went down. 
+This report is an exploratory data analysis and initial plotting of Honduras Foreign Aid Projects. What makes this exploratory data anslysis unique is that the locations of foreign aid projects in Honduras had never existed in a complied manner. Donors within the country had the locations of their projects, but never exchanged this information with other donors. Now that there is a compiled list of locations that can be compiled to Projects located in the Government of Honduras database. The average project funded in Honduras is  19,400,000 USD with the standard deviation being 20,776,332 USD. Statistically, a standard deviation that is larger than a mean indicates that there will be little to no statistically significant differences between mean and zero. This means that the data is non-normal. This is acceptable for the dataset because foreign aid projects are not tested if they are significant based t-tests. What determine a foreign aid projects significance is based on outcome of the projects i.e. municipality's poverty rate went down. 
 
 The next step of analysis would be for the projects to be plotted based on Donor. Since donors have never had other donor's data, the next step of transparency in Honduras is help donors coordinate with other donors. This entails having projects subsetted by Donors and by sector. Plotting Donors by sectors allows for donors to coordinate their projects with other donors if they are funding projects with the same sector in the same administrative boundaries.
 
-In terms of R's functionality, it is great for doing data analysis, but it is not the appropriate tool to use for mapping. There are tools that are much quicker and easier to use to plot and manipulate geospatial data. Where R excels compared to other tools though is the ability for R to manipulate and get the data ready for mapping. In the future, R will be used to manipulate and transform the data but leaflet.js or a point and click tool such as QuantumGIS will be used to plot the data.
+In terms of R's functionality, it is great for doing data analysis, but it is not the appropriate tool to use for mapping. There are tools that are much quicker and easier to use to plot and manipulate geospatial data. Where R excels compared to other tools though is the ability to manipulate and get the data ready for mapping. In the future, R will be used to manipulate and transform the data but leaflet.js or a point and click tool such as QuantumGIS will be used to plot the data.
 
